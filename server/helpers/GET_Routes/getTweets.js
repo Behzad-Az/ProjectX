@@ -1,7 +1,7 @@
 const getTweets = (req, res, knex) => {
 
   const filterTweets = () => knex.raw(
-    "select extract('epoch' FROM now()::timestamp - tweet_created_at) / 3600 AS hours_ago, id, poster_name, plant_name, country, content, like_count FROM tweets where tweet_deleted_at is null order by tweet_created_at DESC NULLS LAST;")
+    "select extract('epoch' FROM now()::timestamp - created_at) / 3600 AS hours_ago, id, poster_name, plant_name, country, content, like_count FROM tweets where deleted_at is null order by created_at DESC NULLS LAST;")
 
   filterTweets()
   .then(tweets => res.send({ tweets: tweets.rows }))

@@ -4,10 +4,13 @@ class TweetBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      likeDisabled: false
+      likeDisabled: false,
+      flagDisabled: false,
+      likeCount: this.props.tweet.like_count
     };
     this._findTimePast = this._findTimePast.bind(this);
     this._handleSubmitLike = this._handleSubmitLike.bind(this);
+    this._handleSubmitFlag = this._handleSubmitFlag.bind(this);
   }
 
   _findTimePast(hoursAgo) {
@@ -29,7 +32,27 @@ class TweetBox extends Component {
       })
       .then(response => response.json())
       .then(resJSON => {
-        if (resJSON) { this.setState({ likeDisabled: true }); }
+        if (resJSON) { this.setState({ likeDisabled: true, likeCount: this.state.likeCount + 1 }); }
+        else { throw 'Server returned false'; }
+      })
+      .catch(err => console.error('Unable to post like - ', err));
+    }
+  }
+
+  _handleSubmitFlag() {
+    if (!this.state.flagDisabled) {
+      fetch(`/api/tweets/${this.props.tweet.id}/flags`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ flag: 1 })
+      })
+      .then(response => response.json())
+      .then(resJSON => {
+        if (resJSON) { this.setState({ flagDisabled: true }); }
         else { throw 'Server returned false'; }
       })
       .catch(err => console.error('Unable to post like - ', err));
@@ -56,10 +79,13 @@ class TweetBox extends Component {
             </div>
             <nav className='level is-mobile'>
               <div className='level-left'>
+                <small>{this.state.likeCount}</small>
                 <a className='level-item' onClick={this._handleSubmitLike} style={{color: this.state.likeDisabled ? 'red' : ''}}>
                   <span className='icon is-small'><i className='fa fa-heart' /></span>
                 </a>
-                <small>{this.props.tweet.like_count}</small>
+                <a className='level-item' onClick={this._handleSubmitFlag} style={{color: this.state.flagDisabled ? 'red' : ''}}>
+                  <span className='icon is-small'><i className='fa fa-flag' /></span>
+                </a>
               </div>
             </nav>
           </div>

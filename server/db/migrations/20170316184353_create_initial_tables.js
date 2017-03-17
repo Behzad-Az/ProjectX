@@ -8,8 +8,9 @@ exports.up = function(knex, Promise) {
       t.string('hashtags', 66).notNullable();
       t.string('content', 1500).notNullable();
       t.integer('like_count').notNullable().defaultTo(0);
-      t.timestamp('tweet_created_at').notNullable().defaultTo(knex.fn.now());
-      t.timestamp('tweet_deleted_at');
+      t.integer('flag_count').notNullable().defaultTo(0);
+      t.timestamps(true, true);
+      t.timestamp('deleted_at');
     })
   ]);
 };
