@@ -1,0 +1,23 @@
+.tweet-page {
+  background-color: #f5f5f5;
+  padding: $default_margin;
+  min-height: 100vh;
+  overflow: auto;
+
+  .new-tweet-form {
+    .toprow {
+      // background-color: red;
+      // padding: 5px 0;
+      text-align:center;
+      .field {
+        width: 33.333%;
+        // margin-right: 5px;
+        padding-right: 5px;
+        display: inline-block;
+        .label { text-align: left; }
+      }
+    }
+
+  }
+
+}
