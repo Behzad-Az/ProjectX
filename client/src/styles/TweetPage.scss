@@ -4,18 +4,21 @@
   min-height: 100vh;
   overflow: auto;
 
-  .new-tweet-form {
-    .toprow {
-      // background-color: red;
-      // padding: 5px 0;
-      text-align:center;
-      .field {
-        width: 33.333%;
-        // margin-right: 5px;
-        padding-right: 5px;
-        display: inline-block;
-        .label { text-align: left; }
+  .main-container {
+    .page-msg {
+      font-size: 16px; text-align: center;
+      .fa, .sr-only { font-size: 16px; padding: 3px }
+    }
+
+    .new-tweet-form {
+      .toprow {
+        text-align:center;
+        .field {
+          width: 33.333%; padding-right: 5px; display: inline-block;
+          .label { text-align: left; }
+        }
       }
+      .char-counter { text-align: right; font-size: 12px; }
     }
 
   }

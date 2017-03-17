@@ -20,7 +20,9 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
-    "pg": "^6.1.4"
+    "knex": "^0.12.8",
+    "pg": "^6.1.4",
+    "twit": "^2.2.5"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

@@ -3,12 +3,13 @@ import React, {Component} from 'react';
 class TweetBox extends Component {
   constructor(props) {
     super(props);
-    this.tweet = {
-      posterName: 'Anonymous',
-      plantName: 'Albian',
-      country: 'Canada',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.'
-    };
+    this._findTimePast = this._findTimePast.bind(this);
+  }
+
+  _findTimePast(hoursAgo) {
+    if (hoursAgo < 1) { return 'Less than 1 hour ago'; }
+    else if (hoursAgo < 24) { return `${hoursAgo} hour(s) ago`; }
+    else if (hoursAgo < 31 * 24) { return `${Math.floor(hoursAgo/24)} day(s) ago`; }
   }
 
   render() {
@@ -23,22 +24,22 @@ class TweetBox extends Component {
           <div className='media-content'>
             <div className='content'>
               <p>
-                <strong>{this.tweet.plantName} | {this.tweet.country}</strong>
-                <small> @{this.tweet.posterName}</small> - <small>31m ago</small>
+                <strong>{this.props.tweet.plant_name} | {this.props.tweet.country}</strong>
+                <small> @{this.props.tweet.poster_name}</small> - <small>{this._findTimePast(Math.floor(this.props.tweet.hours_ago))}</small>
                 <br />
-                {this.tweet.content}
+                {this.props.tweet.content}
               </p>
             </div>
             <nav className='level is-mobile'>
               <div className='level-left'>
                 <a className='level-item'>
-                  <span className='icon is-small'><i className='fa fa-reply'></i></span>
+                  <span className='icon is-small'><i className='fa fa-reply' /></span>
                 </a>
                 <a className='level-item'>
-                  <span className='icon is-small'><i className='fa fa-retweet'></i></span>
+                  <span className='icon is-small'><i className='fa fa-retweet' /></span>
                 </a>
                 <a className='level-item'>
-                  <span className='icon is-small'><i className='fa fa-heart'></i></span>
+                  <span className='icon is-small'><i className='fa fa-heart' /></span>
                 </a>
               </div>
             </nav>

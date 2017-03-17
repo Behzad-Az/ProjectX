@@ -6,7 +6,7 @@ class AppComponent extends React.Component {
   render() {
     return (
       <Router history={browserHistory}>
-        <Route path={'/'} component={TweetPage} />
+        <Route path={'*'} component={TweetPage} />
       </Router>
     );
   }
