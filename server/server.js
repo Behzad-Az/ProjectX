@@ -10,10 +10,10 @@ const connection = require('./db/knexfile.js').development;
 const knex = require('knex')(connection);
 const twt = require('twit');
 const twit = new twt({
-  consumer_key:         'ipjomvGgE12ytDz1PabO9rjy6',
-  consumer_secret:      'IGWhVU267tpAOtThg2SIrNwAvm0RY4qvW4BrNwD8nDEdlDNK4P',
-  access_token:         '810197460144586752-CtpXr9XwWrx7EiDobSRMziZufA4OFWq',
-  access_token_secret:  '9RH6rMVNpNrjJCax3xMK1XAjFkSrjKi9irVsOwmsoEplg',
+  consumer_key:         'yvETWoGKF4OWU393atHUQr93G',
+  consumer_secret:      'sIN3vqs4P8a1BYALf0X1YTsjBW35WifTEaKEZpp5h0v89NrSy0',
+  access_token:         '842612753965576193-Z0hLLTeFwVMasygoHdZUSKktC9jLZlY',
+  access_token_secret:  'te9dez3fR9QpcxFYmXoXg4uvK0WUDslAMfN06jCkkpven',
   timeout_ms:           60*1000  // optional HTTP request timeout to apply to all requests.
 });
 
@@ -35,6 +35,7 @@ const server = app.listen(PORT, '127.0.0.1', 'localhost', () => console.log(`Lis
 // ***************************************************
 const getTweets = require('./helpers/GET_Routes/getTweets.js');
 const postNewTweet = require('./helpers/POST_Routes/postNewTweet.js');
+const postNewTweetLike = require('./helpers/POST_Routes/postNewTweetLike.js');
 
 
 // ***************************************************
@@ -50,6 +51,10 @@ app.get('/api/home', (req, res) => {
 // ***************************************************
 app.post('/api/tweets', (req, res) => {
   postNewTweet(req, res, knex, twit);
+});
+
+app.post('/api/tweets/:tweet_id/likes', (req, res) => {
+  postNewTweetLike(req, res, knex);
 });
 
 

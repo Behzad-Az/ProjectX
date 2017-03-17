@@ -51,12 +51,13 @@ class TweetPage extends Component {
     } else if (this.state.dataLoaded) {
       return (
         <div className='main-container'>
-          <p className='title is-6'>Do you think Shell sucks? Share your thoughts here.</p>
+          <p className='title is-6'>Have you seen something hilarious, upsetting or just pure stupid at Shell? Share it here.</p>
           <p className='title is-6'>Your thoughts will be shared here as well as anonymously on Twitter.</p>
           <p className='title is-6'>Keep the comments civilized and post carefully (i.e. don't get yourself into trouble with your boss).</p>
           <NewTweetForm reload={this._loadComponentData} />
           <hr />
           { this.state.tweets.map(tweet => <TweetBox key={tweet.id} tweet={tweet} />) }
+          { !this.state.tweets[0] && <p className='title is-6'>Nothing posted yet :(</p> }
         </div>
       );
     } else {
