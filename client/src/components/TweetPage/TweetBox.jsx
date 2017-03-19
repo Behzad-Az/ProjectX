@@ -9,6 +9,7 @@ class TweetBox extends Component {
       likeCount: this.props.tweet.like_count
     };
     this._findTimePast = this._findTimePast.bind(this);
+    this._findBoxHeader = this._findBoxHeader.bind(this);
     this._handleSubmitLike = this._handleSubmitLike.bind(this);
     this._handleSubmitFlag = this._handleSubmitFlag.bind(this);
   }
@@ -17,6 +18,12 @@ class TweetBox extends Component {
     if (hoursAgo < 1) { return 'Less than 1 hour ago'; }
     else if (hoursAgo < 24) { return `${hoursAgo} hour(s) ago`; }
     else if (hoursAgo < 31 * 24) { return `${Math.floor(hoursAgo/24)} day(s) ago`; }
+  }
+
+  _findBoxHeader() {
+    return `@${this.props.tweet.company}` +
+      (this.props.tweet.location ? ` | ${this.props.tweet.location}` : '') +
+      (this.props.tweet.country ? ` | ${this.props.tweet.country}` : '');
   }
 
   _handleSubmitLike() {
@@ -61,7 +68,7 @@ class TweetBox extends Component {
 
   render() {
     return (
-      <div className='box'>
+      <div className='tweet box'>
         <article className='media'>
           <div className='media-left'>
             <figure className='image is-64x64'>
@@ -71,8 +78,8 @@ class TweetBox extends Component {
           <div className='media-content'>
             <div className='content'>
               <p>
-                <strong>{this.props.tweet.plant_name} | {this.props.tweet.country}</strong>
-                <small> @{this.props.tweet.poster_name}</small> - <small>{this._findTimePast(Math.floor(this.props.tweet.hours_ago))}</small>
+                <strong>{this._findBoxHeader()}</strong>
+                <small> by {this.props.tweet.poster_name}</small> - <small>{this._findTimePast(Math.floor(this.props.tweet.hours_ago))}</small>
                 <br />
                 {this.props.tweet.content}
               </p>
@@ -80,10 +87,10 @@ class TweetBox extends Component {
             <nav className='level is-mobile'>
               <div className='level-left'>
                 <small>{this.state.likeCount}</small>
-                <a className='level-item' onClick={this._handleSubmitLike} style={{color: this.state.likeDisabled ? 'red' : ''}}>
+                <a className='level-item' onClick={this._handleSubmitLike} style={{color: this.state.likeDisabled ? 'rgb(210, 50, 30)' : ''}}>
                   <span className='icon is-small'><i className='fa fa-heart' /></span>
                 </a>
-                <a className='level-item' onClick={this._handleSubmitFlag} style={{color: this.state.flagDisabled ? 'red' : ''}}>
+                <a className='level-item' onClick={this._handleSubmitFlag} style={{color: this.state.flagDisabled ? 'rgb(210, 50, 30)' : ''}}>
                   <span className='icon is-small'><i className='fa fa-flag' /></span>
                 </a>
               </div>

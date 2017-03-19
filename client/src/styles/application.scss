@@ -7,5 +7,7 @@ $bad-red: #9D0600;
 
 $default_margin: 20px;
 $top_margin: 60px;
+$default_margin_bottom: 0.75rem;
 
 @import './TweetPage';
+@import './Navbar';

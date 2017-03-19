@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import NewTweetForm from './NewTweetForm.jsx';
 import TweetBox from './TweetBox.jsx';
+import WelcomeModal from './WelcomeModal.jsx';
+import Navbar from '../Navbar/Navbar.jsx';
 
 class TweetPage extends Component {
   constructor(props) {
@@ -8,6 +10,8 @@ class TweetPage extends Component {
     this.state = {
       dataLoaded: false,
       pageError: false,
+      // agreementModalClass: 'modal is-active',
+      // agreementModalClass: 'modal',
       tweets: []
     };
     this._loadComponentData = this._loadComponentData.bind(this);
@@ -51,11 +55,10 @@ class TweetPage extends Component {
     } else if (this.state.dataLoaded) {
       return (
         <div className='main-container'>
-          <p className='title is-6'>Have you seen something crazy, upsettingm, or just hilarious at Shell? Share it here.</p>
-          <p className='title is-6'>Your thoughts will be shared here as well as anonymously on <a href='https://twitter.com/shell_sucks' target='_blank'>Twitter</a></p>
-          <p className='title is-6'>Keep the comments civilized and post carefully (i.e. nothing confidential, disrespectful or personal) - don't get yourself into trouble with your boss. Flagged tweets will be removed.</p>
+          <WelcomeModal />
+          <p className='header'>Start Venting:</p>
           <NewTweetForm reload={this._loadComponentData} />
-          <hr />
+          <p className='header'>Previous Vents:</p>
           { this.state.tweets.map(tweet => <TweetBox key={tweet.id} tweet={tweet} />) }
           { !this.state.tweets[0] && <p className='title is-6'>Nothing posted yet :(</p> }
         </div>
@@ -75,6 +78,7 @@ class TweetPage extends Component {
   render() {
     return (
       <div className='tweet-page'>
+        <Navbar />
         { this._renderPageAfterData() }
       </div>
     );

@@ -1,11 +1,11 @@
 const postNewTweetFlag = (req, res, knex) => {
 
-  const postNewFlag = trx => knex('tweets')
+  const postNewFlag = trx => knex('pg_tweets')
     .transacting(trx)
     .where('id', req.params.tweet_id)
     .increment('flag_count', 1);
 
-  const updateTimeStamp = trx => knex('tweets')
+  const updateTimeStamp = trx => knex('pg_tweets')
     .transacting(trx)
     .where('id', req.params.tweet_id)
     .update({ updated_at: knex.fn.now() });
