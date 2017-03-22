@@ -12,7 +12,7 @@ class Navbar extends Component {
         </div>
 
         <span className='nav-item'>
-          <a className='button' href='https://twitter.com/shell_sucks' target='_blank'>
+          <a className='button' href='https://twitter.com/WorkerVent' target='_blank'>
             <span className='icon'>
               <i className='fa fa-twitter'></i>
             </span>

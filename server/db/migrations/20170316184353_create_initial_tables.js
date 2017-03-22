@@ -4,9 +4,9 @@ exports.up = function(knex, Promise) {
       t.increments('id');
       t.string('poster_name', 15).notNullable().defaultTo('Anonymous');
       t.string('company', 20).notNullable();
-      t.string('location', 15);
-      t.string('country', 15);
-      t.string('title', 20);
+      t.string('location', 15).notNullable().defaultTo('');
+      t.string('country', 15).notNullable().defaultTo('');
+      t.string('title', 20).notNullable().defaultTo('');
       t.string('content', 1500).notNullable();
       t.integer('like_count').notNullable().defaultTo(0);
       t.integer('flag_count').notNullable().defaultTo(0);

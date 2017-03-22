@@ -8,14 +8,13 @@ const app = express();
 const bodyParser = require('body-parser');
 const connection = require('./db/knexfile.js').development;
 const knex = require('knex')(connection);
-// const twt = require('twit');
 const twt = require('twit');
 const twit = new twt({
-  consumer_key:         'Hk0pkpzCIltV00R5H8fZlUNRD',
-  consumer_secret:      'zVhvJyWko8OwHrAU21H0eNwvQhkhc0R5ucnZD4AZsa1CHViL2U',
-  access_token:         '842612753965576193-CO3sHGdi4XweqJCiSCQPfGsfj4LT9z5',
-  access_token_secret:  'Cb0t672WuxmfrBQKU4weee2dttCpTWINPeZIqJFqOx8xp',
-  // timeout_ms:           60*1000  // optional HTTP request timeout to apply to all requests.
+  consumer_key:         'rb5lc91Bcexs9v2iXgUJyPNdB',
+  consumer_secret:      'NuZVR0kvze6UPUxeSSFYLIlxAZp8BxvDksmdVxQH51pjgcrhvd',
+  access_token:         '842612753965576193-nBV9xsXIAgHNRoU5dpNhVBrfnHWRgYO',
+  access_token_secret:  'WhyuSjeNZdIRZcLY60tApenkbz8ICMtotiBKBHyTgkMIl',
+  timeout_ms:           60*1000  // optional HTTP request timeout to apply to all requests.
 });
 
 // ***************************************************

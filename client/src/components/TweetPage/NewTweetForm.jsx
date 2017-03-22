@@ -45,14 +45,15 @@ class TweetBox extends Component {
   }
 
   _validateForm() {
-    return this.state.posterName.length <= this.charLenghts.posterName &&
-           this.state.location.length <= this.charLenghts.location &&
-           this.state.country.length <= this.charLenghts.country &&
-           this.state.title.length <= this.charLenghts.title &&
-           this.state.company.length >= 3 &&
-           this.state.company.length <= this.charLenghts.company &&
-           this.state.content.length >= 3 &&
-           this.state.content.length <= this.charLenghts.content;
+    // return this.state.posterName.length <= this.charLenghts.posterName &&
+    //        this.state.location.length <= this.charLenghts.location &&
+    //        this.state.country.length <= this.charLenghts.country &&
+    //        this.state.title.length <= this.charLenghts.title &&
+    //        this.state.company.length >= 3 &&
+    //        this.state.company.length <= this.charLenghts.company &&
+    //        this.state.content.length >= 3 &&
+    //        this.state.content.length <= this.charLenghts.content;
+    return true;
   }
 
   _handleSubmit() {
@@ -155,6 +156,9 @@ class TweetBox extends Component {
           </p>
           <p className='control'>
             <button className='button is-link' onClick={this._handleClear}>Clear</button>
+          </p>
+          <p className='control'>
+            <button className='button is-link' onClick={this.props.showRules}>Rules of Posting</button>
           </p>
         </div>
 

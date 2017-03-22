@@ -1,6 +1,7 @@
 'use strict'
 
 const config = require('./config_local');
+// const config = require('./config_prod');
 
 module.exports = {
 

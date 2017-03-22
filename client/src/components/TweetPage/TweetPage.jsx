@@ -10,12 +10,12 @@ class TweetPage extends Component {
     this.state = {
       dataLoaded: false,
       pageError: false,
-      // agreementModalClass: 'modal is-active',
-      // agreementModalClass: 'modal',
+      showWelcomeModal: true,
       tweets: []
     };
     this._loadComponentData = this._loadComponentData.bind(this);
     this._conditionData = this._conditionData.bind(this);
+    this._toggleWelcomeModal = this._toggleWelcomeModal.bind(this);
     this._renderPageAfterData = this._renderPageAfterData.bind(this);
   }
 
@@ -42,6 +42,10 @@ class TweetPage extends Component {
     .catch(() => this.setState({ dataLoaded: true, pageError: true }));
   }
 
+  _toggleWelcomeModal() {
+    this.setState({ showWelcomeModal: !this.state.showWelcomeModal });
+  }
+
   _renderPageAfterData() {
     if (this.state.dataLoaded && this.state.pageError) {
       return (
@@ -55,9 +59,9 @@ class TweetPage extends Component {
     } else if (this.state.dataLoaded) {
       return (
         <div className='main-container'>
-          <WelcomeModal />
+          <WelcomeModal showModal={this.state.showWelcomeModal} toggleModal={this._toggleWelcomeModal} />
           <p className='header'>Start Venting:</p>
-          <NewTweetForm reload={this._loadComponentData} />
+          <NewTweetForm reload={this._loadComponentData} showRules={this._toggleWelcomeModal} />
           <p className='header'>Previous Vents:</p>
           { this.state.tweets.map(tweet => <TweetBox key={tweet.id} tweet={tweet} />) }
           { !this.state.tweets[0] && <p className='title is-6'>Nothing posted yet :(</p> }

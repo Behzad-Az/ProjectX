@@ -12,11 +12,11 @@ const postNewTweet = (req, res, knex, twit) => {
 
   let newTweetObj = {
     poster_name,
-    company,
+    company: company || null,
     location,
     country,
     title,
-    content
+    content: content || null
   };
 
   const determineTwtArr = () => {
@@ -56,7 +56,7 @@ const postNewTweet = (req, res, knex, twit) => {
   .then(() => postToPg())
   .then(id => {
     res.send(true);
-    determineTwtArr().forEach(status => postToTwitter(id[0], status));
+    // determineTwtArr().forEach(status => postToTwitter(id[0], status));
   })
   .catch(err => {
     console.error('Error inside postNewTweet.js', err);
