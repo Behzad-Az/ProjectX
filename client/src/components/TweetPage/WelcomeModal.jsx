@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class WelcomeModal extends Component {
   render() {
     return (
-      <div className={this.props.showModal ? 'modal' : 'modal'}>
+      <div className={this.props.showModal ? 'modal is-active' : 'modal'}>
         <div className='modal-background'></div>
         <div className='modal-card'>
           <header className='modal-card-head'>

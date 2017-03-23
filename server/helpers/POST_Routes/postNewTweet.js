@@ -17,8 +17,8 @@ const postNewTweet = (req, res, knex, twit) => {
     }
   };
 
-  const company = req.body.company.trim();
-  const location = req.body.location.trim();
+  const company = req.body.company.trim().replace(/ /g, '_');
+  const location = req.body.location.trim().replace(/ /g, '_');
   const title = conditionTitle(req.body.title);
   const content = req.body.content.trim();
 
@@ -30,24 +30,30 @@ const postNewTweet = (req, res, knex, twit) => {
     content: content || null
   };
 
+  const divideTweet = (content, maxLength, tweetBodyArr = []) => {
+    let tweetBody = content.slice(0, maxLength);
+    if (content.length < maxLength) {
+      tweetBodyArr.push(tweetBody);
+      return tweetBodyArr;
+    } else {
+      let lastSpaceIndex = tweetBody.lastIndexOf(' ');
+      tweetBody = tweetBody.slice(0, lastSpaceIndex);
+      tweetBodyArr.push(tweetBody + '_');
+      return divideTweet(content.replace(tweetBody + ' ', ''), maxLength, tweetBodyArr);
+    }
+  };
+
   const determineTwtArr = () => {
     const companyIdentifier = `#${company}` + (location ? ` #${location}` : '');
-    const tweetEnd = '#WorkerVent';
-    const availableLength = MAX_CHAR_COUNT - title.length - tweetEnd.length -  23;
-    const numberOfTweets = Math.ceil(content.length / availableLength);
-    let tweetArr = [];
-    for (let i = 1; i <= numberOfTweets; i++) {
-
-      let tweet = companyIdentifier +
-                  title +
-                  (numberOfTweets > 1 ? ` (${i}/${numberOfTweets})\n` : '\n') +
-                  content.slice((i - 1) * availableLength, i * availableLength) +
-                  `${i === numberOfTweets ? '\n' : '-\n'}` +
-                  tweetEnd;
-      console.log(tweet, `\n ${tweet.length}`);
-      tweetArr.push(tweet);
-    }
-    return tweetArr;
+    const tweetEnd = '\n#WorkerVent';
+    const maxLength = MAX_CHAR_COUNT - companyIdentifier.length - title.length - tweetEnd.length - 9;
+    return divideTweet(content, maxLength).map((tweetBody, index, arr) =>
+      companyIdentifier +
+      title +
+      (arr.length > 1 ? ` (${index + 1}/${arr.length})\n` : '\n') +
+      tweetBody +
+      tweetEnd
+    );
   };
 
   const profanityFilter = () => new Promise((resolve, reject) => {
@@ -58,19 +64,16 @@ const postNewTweet = (req, res, knex, twit) => {
     error ? reject('profanity detected') : resolve();
   });
 
-
   const postToPg = () => knex('pg_tweets')
     .insert(newTweetObj)
     .returning('id');
+
+  const postTwitterId = (pg_tweet_id, twitter_id) => knex('twitter_ids').insert({ pg_tweet_id, twitter_id });
 
   const postToTwitter = (pg_tweet_id, status) => twit.post('statuses/update', { status }, (err, response) => {
     if (err) { console.log('Error while posting to Twitter: ', err); }
     else { postTwitterId(pg_tweet_id, response.id).then(() => {}); }
   });
-
-  const postTwitterId = (pg_tweet_id, twitter_id) => knex('twitter_ids').insert({ pg_tweet_id, twitter_id });
-
-  determineTwtArr();
 
   profanityFilter()
   .then(() => postToPg())

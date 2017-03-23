@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
       t.string('company', 20).notNullable();
       t.string('location', 15).notNullable().defaultTo('');
       t.string('title', 20).notNullable().defaultTo('');
-      t.string('content', 1500).notNullable();
+      t.string('content', 500).notNullable();
       t.integer('like_count').notNullable().defaultTo(0);
       t.integer('flag_count').notNullable().defaultTo(0);
       t.timestamps(true, true);

@@ -8,7 +8,7 @@ class TweetBox extends Component {
       location: 15,
       title: 20,
       company: 20,
-      content: 1500
+      content: 500
     };
     this.state = {
       posterName: '',
@@ -42,14 +42,13 @@ class TweetBox extends Component {
   }
 
   _validateForm() {
-    // return this.state.posterName.length <= this.charLenghts.posterName &&
-    //        this.state.location.length <= this.charLenghts.location &&
-    //        this.state.title.length <= this.charLenghts.title &&
-    //        this.state.company.length >= 3 &&
-    //        this.state.company.length <= this.charLenghts.company &&
-    //        this.state.content.length >= 3 &&
-    //        this.state.content.length <= this.charLenghts.content;
-    return true;
+    return this.state.posterName.length <= this.charLenghts.posterName &&
+           this.state.location.length <= this.charLenghts.location &&
+           this.state.title.length <= this.charLenghts.title &&
+           this.state.company.length >= 3 &&
+           this.state.company.length <= this.charLenghts.company &&
+           this.state.content.length >= 3 &&
+           this.state.content.length <= this.charLenghts.content;
   }
 
   _handleSubmit() {
@@ -116,7 +115,7 @@ class TweetBox extends Component {
 
         <div className='comment field'>
           <p className='control'>
-            <textarea className='textarea' name='content' placeholder='Enter your comment here* (1500 character limit)' value={this.state.content} onChange={this._handleChange} />
+            <textarea className='textarea' name='content' placeholder='Enter your comment here* (500 character limit)' value={this.state.content} onChange={this._handleChange} />
           </p>
           <p className='char-counter' style={{color: this.state.content.length <= this.charLenghts.content ? 'inherit' : ''}}>{this.state.content.length}</p>
         </div>
@@ -124,12 +123,12 @@ class TweetBox extends Component {
         <div className='field'>
           <p className='control'>
             <span className='select'>
-              <select name='title' onChange={this._handleChange}>
-                <option value=''>Describe your workplace: (optional)</option>
-                <option value='awesome'>Pretty awesome place.</option>
-                <option value='alright'>It's alright...</option>
-                <option value='funny'>It's a "funny" place.</option>
-                <option value='sucks'>This place sucks!</option>
+              <select name='title' onChange={this._handleChange} value={this.state.title}>
+                <option value=''>Describe your work environment (optional):</option>
+                <option value='awesome'>Awesome!</option>
+                <option value='alright'>Just alright</option>
+                <option value='funny'>Comedic</option>
+                <option value='sucks'>Sucks!</option>
               </select>
             </span>
           </p>
