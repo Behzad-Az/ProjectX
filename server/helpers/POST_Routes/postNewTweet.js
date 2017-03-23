@@ -2,31 +2,49 @@ const postNewTweet = (req, res, knex, twit) => {
   const MAX_CHAR_COUNT = 140;
   const profanityPhrases = ['fuck', 'dick', 'asshole', 'bitch', 'motherfucker'];
 
-  const poster_name = req.body.posterName.trim() || 'Anonymous';
+  const conditionTitle = title => {
+    switch(title.trim().toLowerCase()) {
+      case 'awesome':
+        return ' #awesome';
+      case 'alright':
+        return ' #cool';
+      case 'funny':
+        return ' #funny';
+      case 'sucks':
+        return ' #sucks';
+      default:
+        return '';
+    }
+  };
+
   const company = req.body.company.trim();
   const location = req.body.location.trim();
-  const country = req.body.country.trim();
-  const title = req.body.title.trim();
+  const title = conditionTitle(req.body.title);
   const content = req.body.content.trim();
-  const tweetEnd = `@${company} #${company}` + (location ? ` #${location}` : '') + (country ? ` #${country}` : '') + '\n';
 
   let newTweetObj = {
-    poster_name,
+    poster_name: req.body.posterName.trim() || 'Anonymous',
     company: company || null,
     location,
-    country,
     title,
     content: content || null
   };
 
   const determineTwtArr = () => {
-    let contentLength = content.length;
-    let tweetEndLength = tweetEnd.length;
-    let availableLength = MAX_CHAR_COUNT - title.length - tweetEndLength -  8;
-    let numberOfTweets = Math.ceil(contentLength / availableLength);
+    const companyIdentifier = `#${company}` + (location ? ` #${location}` : '');
+    const tweetEnd = '#WorkerVent';
+    const availableLength = MAX_CHAR_COUNT - title.length - tweetEnd.length -  23;
+    const numberOfTweets = Math.ceil(content.length / availableLength);
     let tweetArr = [];
     for (let i = 1; i <= numberOfTweets; i++) {
-      let tweet = `${title}(${i}/${numberOfTweets})\n` + tweetEnd + content.slice((i - 1) * availableLength, i * availableLength) + `${i === numberOfTweets ? '' : '-'}`;
+
+      let tweet = companyIdentifier +
+                  title +
+                  (numberOfTweets > 1 ? ` (${i}/${numberOfTweets})\n` : '\n') +
+                  content.slice((i - 1) * availableLength, i * availableLength) +
+                  `${i === numberOfTweets ? '\n' : '-\n'}` +
+                  tweetEnd;
+      console.log(tweet, `\n ${tweet.length}`);
       tweetArr.push(tweet);
     }
     return tweetArr;
@@ -52,11 +70,13 @@ const postNewTweet = (req, res, knex, twit) => {
 
   const postTwitterId = (pg_tweet_id, twitter_id) => knex('twitter_ids').insert({ pg_tweet_id, twitter_id });
 
+  determineTwtArr();
+
   profanityFilter()
   .then(() => postToPg())
   .then(id => {
     res.send(true);
-    // determineTwtArr().forEach(status => postToTwitter(id[0], status));
+    determineTwtArr().forEach(status => postToTwitter(id[0], status));
   })
   .catch(err => {
     console.error('Error inside postNewTweet.js', err);

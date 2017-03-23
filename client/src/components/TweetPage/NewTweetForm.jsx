@@ -6,7 +6,6 @@ class TweetBox extends Component {
     this.charLenghts = {
       posterName: 15,
       location: 15,
-      country: 15,
       title: 20,
       company: 20,
       content: 1500
@@ -15,7 +14,6 @@ class TweetBox extends Component {
       posterName: '',
       company: '',
       location: '',
-      country: '',
       content: '',
       title: '',
       anonymous: true
@@ -38,7 +36,6 @@ class TweetBox extends Component {
       posterName: '',
       company: '',
       location: '',
-      country: '',
       content: '',
       title: ''
     });
@@ -47,7 +44,6 @@ class TweetBox extends Component {
   _validateForm() {
     // return this.state.posterName.length <= this.charLenghts.posterName &&
     //        this.state.location.length <= this.charLenghts.location &&
-    //        this.state.country.length <= this.charLenghts.country &&
     //        this.state.title.length <= this.charLenghts.title &&
     //        this.state.company.length >= 3 &&
     //        this.state.company.length <= this.charLenghts.company &&
@@ -61,7 +57,6 @@ class TweetBox extends Component {
       posterName: this.state.posterName,
       company: this.state.company,
       location: this.state.location,
-      country: this.state.country,
       title: this.state.title,
       content: this.state.content
     };
@@ -111,11 +106,12 @@ class TweetBox extends Component {
             </p>
           </div>
           <div className='field'>
-            <p className='char-counter'>{this.state.country.length > this.charLenghts.country ? 'Too Long' : ''}</p>
+            <p className='char-counter'> {this.state.posterName.length > this.charLenghts.posterName ? 'Too Long' : ''}</p>
             <p className='control'>
-              <input className='input' type='text' name='country' placeholder='Country (Optional)' value={this.state.country} onChange={this._handleChange} />
+              <input className='input' type='text' name='posterName' placeholder='Your Name (Optional)' value={this.state.posterName} onChange={this._handleChange} />
             </p>
           </div>
+
         </div>
 
         <div className='comment field'>
@@ -125,29 +121,18 @@ class TweetBox extends Component {
           <p className='char-counter' style={{color: this.state.content.length <= this.charLenghts.content ? 'inherit' : ''}}>{this.state.content.length}</p>
         </div>
 
-        <div className='bottomrow'>
-          <div className='field'>
-            <p className='char-counter'>{this.state.title.length > this.charLenghts.title ? 'Too Long' : ''}</p>
-            <p className='control'>
-              <input className='input' type='text' name='title' placeholder='Title (Optional)' value={this.state.title} onChange={this._handleChange} />
-            </p>
-          </div>
-          <div className='field'>
-            <p className='control'>
-              <label className='checkbox'>
-                <input type='checkbox' defaultChecked={true} onChange={this._handleAnonymous} />
-                Anonymous
-              </label>
-            </p>
-          </div>
-          { !this.state.anonymous &&
-            <div className='field'>
-              <p className='char-counter'> {this.state.posterName.length > this.charLenghts.posterName ? 'Too Long' : ''}</p>
-              <p className='control'>
-                <input className='input is-inline' type='text' name='posterName' placeholder='Your Name' value={this.state.posterName} onChange={this._handleChange} />
-              </p>
-            </div>
-          }
+        <div className='field'>
+          <p className='control'>
+            <span className='select'>
+              <select name='title' onChange={this._handleChange}>
+                <option value=''>Describe your workplace: (optional)</option>
+                <option value='awesome'>Pretty awesome place.</option>
+                <option value='alright'>It's alright...</option>
+                <option value='funny'>It's a "funny" place.</option>
+                <option value='sucks'>This place sucks!</option>
+              </select>
+            </span>
+          </p>
         </div>
 
         <div className='field is-grouped'>

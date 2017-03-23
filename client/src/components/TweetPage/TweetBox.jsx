@@ -21,9 +21,7 @@ class TweetBox extends Component {
   }
 
   _findBoxHeader() {
-    return `@${this.props.tweet.company}` +
-      (this.props.tweet.location ? ` | ${this.props.tweet.location}` : '') +
-      (this.props.tweet.country ? ` | ${this.props.tweet.country}` : '');
+    return `${this.props.tweet.company}` + (this.props.tweet.location ? ` | ${this.props.tweet.location}` : '');
   }
 
   _handleSubmitLike() {
