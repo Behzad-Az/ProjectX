@@ -7,7 +7,7 @@ class Navbar extends Component {
       <nav className='nav'>
         <div className='nav-left'>
           <a className='nav-item'>
-            <img src='../../images/WorkerVentLogo.png' alt='Bulma logo' />
+            <img src='WorkerVentLogo.png' alt='WorkerVent Logo' />
           </a>
         </div>
 

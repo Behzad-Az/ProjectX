@@ -28,27 +28,14 @@ function getDefaultModules() {
         test: /\.css$/,
         loader: 'style-loader!css-loader'
       },
-
-
-
-
       {
         test: /\.scss$/,
         loaders: [ 'style', 'css', 'sass' ]
       },
-
-
-
-
-
       {
         test: /\.sass/,
         loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded&indentedSyntax'
       },
-      // {
-      //   test: /\.scss/,
-      //   loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded'
-      // },
       {
         test: /\.less/,
         loader: 'style-loader!css-loader!less-loader'
