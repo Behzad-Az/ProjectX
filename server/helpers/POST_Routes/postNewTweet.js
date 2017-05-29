@@ -18,16 +18,16 @@ const postNewTweet = (req, res, knex, twit) => {
   };
 
   const poster_name = req.body.posterName.trim() || 'Anonymous';
-  const location = req.body.location.trim().replace(/ /g, '_');
-  const company = req.body.company.trim().replace(/ /g, '_');
+  const work_location = req.body.workLocation.trim().replace(/ /g, '_');
+  const company_name = req.body.companyName.trim().replace(/ /g, '_');
   const work_enviro = determineWorkEnviro();
   const content = req.body.content.trim();
 
-  const validateLocation = () => {
-    if (location) {
-      return location.length >= 3 && location.length <=15 &&
-             location.search(/[^a-zA-Z0-9\&\_\'\.]/) == -1 &&
-             !profanityRegEx.test(location);
+  const validateWorkLocation = () => {
+    if (work_location) {
+      return work_location.length >= 3 && work_location.length <=15 &&
+             work_location.search(/[^a-zA-Z0-9\&\_\'\.]/) == -1 &&
+             !profanityRegEx.test(work_location);
     } else {
       return true;
     }
@@ -38,10 +38,10 @@ const postNewTweet = (req, res, knex, twit) => {
       poster_name.length >= 3 && poster_name.length <= 15 &&
       poster_name.search(/[^a-zA-Z0-9\ \&\_\'\.]/) == -1 &&
       !profanityRegEx.test(poster_name) &&
-      validateLocation(location) &&
-      company.length >= 3 && company.length <= 20 &&
-      company.search(/[^a-zA-Z0-9\&\_\'\.]/) == -1 &&
-      !profanityRegEx.test(company) &&
+      validateWorkLocation(work_location) &&
+      company_name.length >= 3 && company_name.length <= 20 &&
+      company_name.search(/[^a-zA-Z0-9\&\_\'\.]/) == -1 &&
+      !profanityRegEx.test(company_name) &&
       [' #awesome', ' #cool', ' #funny', ' #sucks', ''].includes(work_enviro) &&
       content.length >= 3 && content.length <= 500 &&
       content.search(/[^a-zA-Z0-9\ \&\*\(\)\_\-\~\:\"\'\,\.\[\]\|]/) == -1 &&
@@ -67,7 +67,7 @@ const postNewTweet = (req, res, knex, twit) => {
   };
 
   const determineTwtArr = () => {
-    const companyIdentifier = `#${company}` + (location ? ` #${location}` : '');
+    const companyIdentifier = `#${company_name}` + (work_location ? ` #${work_location}` : '');
     const tweetEnd = '\n#WorkerVent';
     const sliceLength = MAX_CHAR_COUNT - companyIdentifier.length - work_enviro.length - tweetEnd.length - 9;
     return divideTweet(content, sliceLength).map((tweetBody, index, arr) =>
@@ -93,8 +93,8 @@ const postNewTweet = (req, res, knex, twit) => {
   validateInputs()
   .then(() => insertNewVent({
     poster_name,
-    location,
-    company,
+    work_location,
+    company_name,
     work_enviro,
     content
   }))

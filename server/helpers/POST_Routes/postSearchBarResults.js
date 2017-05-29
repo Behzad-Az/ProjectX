@@ -18,7 +18,7 @@ const postSearchBarResults = (req, res, esClient) => {
   });
 
   const companySearchBody = {
-    size: 2,
+    size: 5,
     from: 0,
     query: {
       bool: {
@@ -40,17 +40,18 @@ const postSearchBarResults = (req, res, esClient) => {
 
   validateInputs()
   .then(() => {
+    console.log("i'm here 6: ", query);
     switch (searchType) {
       case 'companyName':
-        return search('search_catalogue', companySearchBody);
+        return search('worker_vent', companySearchBody);
       default:
         throw 'Unknow query type';
     }
   })
   .then (results => {
+    console.log("i'm here 6: ", results);
     switch (searchType) {
       case 'companyName':
-        console.log("i'm here search results: ", { searchResults: results.hits.hits });
         res.send({
           searchResults: results.hits.hits
         });

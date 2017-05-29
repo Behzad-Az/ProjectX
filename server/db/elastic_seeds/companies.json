@@ -1,6 +1,7 @@
 [
-  { "id": 1, "company_name": "Home Inc." },
-  { "id": 2, "company_name": "Ballard Power Systems" },
-  { "id": 3, "company_name": "Apple Inc." },
-  { "id": 4, "company_name": "NCIS Facility - UBC" }
+  { "company_name": "Microsoft" },
+  { "company_name": "Apple" },
+  { "company_name": "Ballard Power" },
+  { "company_name": "Shell" },
+  { "company_name": "Suncor" }
 ]

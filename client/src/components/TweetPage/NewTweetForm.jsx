@@ -6,14 +6,14 @@ class TweetBox extends Component {
     super(props);
     this.formLimits = {
       posterName: { min: 3, max: 15 },
-      location: { min: 3, max: 15 },
-      company: { min: 3, max: 20 },
+      workLocation: { min: 3, max: 15 },
+      companyName: { min: 3, max: 20 },
       content: { min: 3, max: 500 }
     };
     this.state = {
       posterName: '',
-      company: '',
-      location: '',
+      companyName: '',
+      workLocation: '',
       content: '',
       workEnviro: '',
       showResults: false,
@@ -22,7 +22,7 @@ class TweetBox extends Component {
     this._handleChange = this._handleChange.bind(this);
     this._handleClear = this._handleClear.bind(this);
     this._validatePosterName = this._validatePosterName.bind(this);
-    this._validateLocation = this._validateLocation.bind(this);
+    this._validateWorkLocation = this._validateWorkLocation.bind(this);
     this._validateForm = this._validateForm.bind(this);
     this._hanldeCompanySearch = this._hanldeCompanySearch.bind(this);
     this._conditionCompanySearchResults = this._conditionCompanySearchResults.bind(this);
@@ -38,8 +38,8 @@ class TweetBox extends Component {
   _handleClear() {
     this.setState({
       posterName: '',
-      company: '',
-      location: '',
+      companyName: '',
+      workLocation: '',
       content: '',
       workEnviro: ''
     });
@@ -54,10 +54,10 @@ class TweetBox extends Component {
     }
   }
 
-  _validateLocation() {
-    if (this.state.location) {
-      return this.state.location.length >= this.formLimits.location.min &&
-             !InvalidCharChecker(this.state.location.replace(/ /g, '_'), this.formLimits.location.max, 'location');
+  _validateWorkLocation() {
+    if (this.state.workLocation) {
+      return this.state.workLocation.length >= this.formLimits.workLocation.min &&
+             !InvalidCharChecker(this.state.workLocation.replace(/ /g, '_'), this.formLimits.workLocation.max, 'workLocation');
     } else {
       return true;
     }
@@ -65,16 +65,16 @@ class TweetBox extends Component {
 
   _validateForm() {
     return this._validatePosterName() &&
-           this._validateLocation() &&
-           this.state.company.length >= this.formLimits.company.min &&
-           !InvalidCharChecker(this.state.company.replace(/ /g, '_'), this.formLimits.company.max, 'company') &&
+           this._validateWorkLocation() &&
+           this.state.companyName.length >= this.formLimits.companyName.min &&
+           !InvalidCharChecker(this.state.companyName.replace(/ /g, '_'), this.formLimits.companyName.max, 'companyName') &&
            this.state.content.length >= this.formLimits.content.min &&
            !InvalidCharChecker(this.state.content, this.formLimits.content.max, 'content');
   }
 
   _hanldeCompanySearch(e) {
     const query = e.target.value;
-    this.setState({ company: query });
+    this.setState({ companyName: query });
     if (query.length > 2) {
       fetch('/api/searchbar', {
         method: 'POST',
@@ -102,7 +102,7 @@ class TweetBox extends Component {
   _conditionCompanySearchResults(resJSON) {
     if (resJSON.searchResults.length) {
       const searchResults = resJSON.searchResults.map(result =>
-        <p key={result._source.id} className='result-row valid' onClick={() => this.setState({ companyName: result._source.company_name, showResults: false, searchResults: [] })}>
+        <p key={result._id} className='result-row valid' onClick={() => this.setState({ companyName: result._source.company_name, showResults: false, searchResults: [] })}>
           <i className='fa fa-briefcase' /> {result._source.company_name}
         </p>
       );
@@ -113,8 +113,8 @@ class TweetBox extends Component {
   _handleSubmit() {
     const data = {
       posterName: this.state.posterName,
-      company: this.state.company,
-      location: this.state.location,
+      companyName: this.state.companyName,
+      workLocation: this.state.workLocation,
       workEnviro: this.state.workEnviro,
       content: this.state.content
     };
@@ -141,24 +141,23 @@ class TweetBox extends Component {
   }
 
   render() {
-    console.log("i'm here 0: ", this.state.searchResults);
     return (
       <div className='new-tweet-form'>
 
         <div className='toprow'>
 
           <div className='field'>
-            { InvalidCharChecker(this.state.company.replace(/ /g, '_'), this.formLimits.company.max, 'company') && <p className='invalid-msg'>Invalid</p> }
+            { InvalidCharChecker(this.state.companyName.replace(/ /g, '_'), this.formLimits.companyName.max, 'companyName') && <p className='invalid-msg'>Invalid</p> }
             <div className='search-bar-container'>
               <p className='search-bar control'>
                 <input
                   className='input'
                   type='text'
-                  name='company'
+                  name='companyName'
                   placeholder='Company*'
                   value={this.state.companyName}
                   onChange={this._hanldeCompanySearch}
-                  style={{ borderColor: InvalidCharChecker(this.state.company.replace(/ /g, '_'), this.formLimits.company.max, 'company') ? '#9D0600' : '' }} />
+                  style={{ borderColor: InvalidCharChecker(this.state.companyName.replace(/ /g, '_'), this.formLimits.companyName.max, 'companyName') ? '#9D0600' : '' }} />
               </p>
               <div className={this.state.showResults ? 'search-bar results is-enabled' : 'search-bar results'}>
                 { this.state.searchResults }
@@ -167,16 +166,16 @@ class TweetBox extends Component {
           </div>
 
           <div className='field'>
-            { InvalidCharChecker(this.state.location.replace(/ /g, '_'), this.formLimits.location.max, 'location') && <p className='invalid-msg'>Invalid</p> }
+            { InvalidCharChecker(this.state.workLocation.replace(/ /g, '_'), this.formLimits.workLocation.max, 'workLocation') && <p className='invalid-msg'>Invalid</p> }
             <p className='control'>
               <input
                 className='input'
                 type='text'
-                name='location'
-                placeholder='Location (Optional)'
-                value={this.state.location}
+                name='workLocation'
+                placeholder='Work Location (Optional)'
+                value={this.state.workLocation}
                 onChange={this._handleChange}
-                style={{ borderColor: InvalidCharChecker(this.state.location.replace(/ /g, '_'), this.formLimits.location.max, 'location') ? '#9D0600' : '' }} />
+                style={{ borderColor: InvalidCharChecker(this.state.workLocation.replace(/ /g, '_'), this.formLimits.workLocation.max, 'workLocation') ? '#9D0600' : '' }} />
             </p>
           </div>
           <div className='field'>
