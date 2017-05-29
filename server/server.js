@@ -8,6 +8,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const connection = require('./db/knexfile.js').development;
 const knex = require('knex')(connection);
+const elasticsearch = require('elasticsearch');
+const esClient = new elasticsearch.Client({
+  host: '127.0.0.1:9200',
+  log: 'error'
+});
 const twt = require('twit');
 const twit = new twt({
   consumer_key:         'rb5lc91Bcexs9v2iXgUJyPNdB',
@@ -37,6 +42,7 @@ const getTweets = require('./helpers/GET_Routes/getTweets.js');
 const postNewTweet = require('./helpers/POST_Routes/postNewTweet.js');
 const postNewTweetLike = require('./helpers/POST_Routes/postNewTweetLike.js');
 const postNewTweetFlag = require('./helpers/POST_Routes/postNewTweetFlag.js');
+const postSearchBarResults = require('./helpers/POST_Routes/postSearchBarResults.js');
 
 
 // ***************************************************
@@ -60,6 +66,10 @@ app.post('/api/tweets/:tweet_id/likes', (req, res) => {
 
 app.post('/api/tweets/:tweet_id/flags', (req, res) => {
   postNewTweetFlag(req, res, knex);
+});
+
+app.post('/api/searchbar', (req, res) => {
+  postSearchBarResults(req, res, esClient);
 });
 
 

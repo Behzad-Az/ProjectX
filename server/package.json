@@ -19,6 +19,7 @@
   "homepage": "",
   "dependencies": {
     "body-parser": "^1.17.1",
+    "elasticsearch": "^13.0.1",
     "express": "^4.15.2",
     "knex": "^0.12.8",
     "pg": "^6.1.4",

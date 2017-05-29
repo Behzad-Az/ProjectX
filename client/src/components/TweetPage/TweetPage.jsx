@@ -10,7 +10,7 @@ class TweetPage extends Component {
     this.state = {
       dataLoaded: false,
       pageError: false,
-      showWelcomeModal: true,
+      showWelcomeModal: false,
       tweets: []
     };
     this._loadComponentData = this._loadComponentData.bind(this);

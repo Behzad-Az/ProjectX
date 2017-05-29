@@ -2,10 +2,10 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTableIfNotExists('pg_tweets', t => {
       t.increments('id');
-      t.string('poster_name', 15).notNullable().defaultTo('Anonymous');
+      t.string('poster_name', 15).notNullable();
       t.string('company', 20).notNullable();
-      t.string('location', 15).notNullable().defaultTo('');
-      t.string('title', 20).notNullable().defaultTo('');
+      t.string('location', 15).notNullable();
+      t.string('work_enviro', 20).notNullable();
       t.string('content', 500).notNullable();
       t.integer('like_count').notNullable().defaultTo(0);
       t.integer('flag_count').notNullable().defaultTo(0);

@@ -4,10 +4,14 @@ $eggshell: #EFEFD0;
 $peach: #F7C59F;
 $pumpkin: #FF6B35;
 $bad-red: #9D0600;
+$default-bg-color: #f5f5f5;
 
 $default_margin: 20px;
+$sidebar_width_right: 270px;
+$sidebar_width_left: 180px;
 $top_margin: 60px;
-$default_margin_bottom: 0.75rem;
+$main_container_width: calc(100% - 270px);
 
 @import './TweetPage';
 @import './Navbar';
+@import './SearchBar';
