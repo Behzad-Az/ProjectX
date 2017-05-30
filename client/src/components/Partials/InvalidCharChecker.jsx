@@ -6,11 +6,11 @@ const InvalidCharChecker = (str, maxChar, type) => {
     case 'posterName':
       regEx = new RegExp(/[^a-zA-Z0-9\ \&\_\'\.]/);
       break;
-    case 'workLocation':
-      regEx = new RegExp(/[^a-zA-Z0-9\&\_\'\.]/);
+    case 'workLocationHashtag':
+      regEx = new RegExp(/[^a-zA-Z0-9\_\#]/);
       break;
-    case 'companyName':
-      regEx = new RegExp(/[^a-zA-Z0-9\&\_\'\.]/);
+    case 'companyHashtag':
+      regEx = new RegExp(/[^a-zA-Z0-9\_\#]/);
       break;
     case 'content':
       regEx = new RegExp(/[^a-zA-Z0-9\ \&\*\(\)\_\-\~\:\"\'\,\.\[\]\|]/);

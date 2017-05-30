@@ -38,7 +38,7 @@ const server = app.listen(PORT, '127.0.0.1', 'localhost', () => console.log(`Lis
 // ***************************************************
 // HELPERS
 // ***************************************************
-const getTweets = require('./helpers/GET_Routes/getTweets.js');
+const getTweetPageData = require('./helpers/GET_Routes/getTweetPageData.js');
 const postNewTweet = require('./helpers/POST_Routes/postNewTweet.js');
 const postNewTweetLike = require('./helpers/POST_Routes/postNewTweetLike.js');
 const postNewTweetFlag = require('./helpers/POST_Routes/postNewTweetFlag.js');
@@ -49,7 +49,7 @@ const postSearchBarResults = require('./helpers/POST_Routes/postSearchBarResults
 // ROUTES - GET
 // ***************************************************
 app.get('/api/home', (req, res) => {
-  getTweets(req, res, knex);
+  getTweetPageData(req, res, knex);
 });
 
 
@@ -57,7 +57,7 @@ app.get('/api/home', (req, res) => {
 // ROUTES - POST
 // ***************************************************
 app.post('/api/tweets', (req, res) => {
-  postNewTweet(req, res, knex, twit);
+  postNewTweet(req, res, knex, esClient, twit);
 });
 
 app.post('/api/tweets/:tweet_id/likes', (req, res) => {

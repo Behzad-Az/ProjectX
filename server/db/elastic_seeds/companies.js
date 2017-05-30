@@ -17,7 +17,8 @@ const newIndex = {
     'mappings': {
       'comapny': {
         'properties': {
-          'company_name': { 'type': 'string' }
+          'company_name': { 'type': 'string' },
+          'company_hashtag': { 'type': 'string' }
         }
       }
     }
@@ -49,7 +50,6 @@ const bulkIndex = (index, type, data) => {
   })
   .catch(console.err);
 };
-
 
 const populateElasticData = () => {
   const companiesRaw = fs.readFileSync('companies.json');
