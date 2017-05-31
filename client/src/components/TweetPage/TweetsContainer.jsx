@@ -33,8 +33,8 @@ class TweetsContainer extends Component {
     }
   }
 
-  _loadComponentData(freshReload, companyFilter) {
-    fetch(`/api/index?tweetsoffset=${freshReload ? 0 : this.state.tweets.length}&company=${companyFilter || '_all'}`, {
+  _loadComponentData(freshReload) {
+    fetch(`/api/index?tweetsoffset=${freshReload ? 0 : this.state.tweets.length}&company=${this.state.companyFilter || '_all'}`, {
       method: 'GET',
       credentials: 'same-origin'
     })
@@ -56,8 +56,9 @@ class TweetsContainer extends Component {
   }
 
   _validateCompanyFilter() {
-    return this.state.companyFilter.length >= this.formLimits.companyFilter.min &&
-           !InvalidCharChecker(this.state.companyFilter, this.formLimits.companyFilter.max, 'companyFilter');
+    return !this.state.companyFilter.length ||
+           (this.state.companyFilter.length >= this.formLimits.companyFilter.min &&
+           !InvalidCharChecker(this.state.companyFilter, this.formLimits.companyFilter.max, 'companyFilter'));
   }
 
   _renderLoadMoreBtn() {
@@ -92,7 +93,7 @@ class TweetsContainer extends Component {
                 onChange={e => this.setState({ companyFilter: e.target.value })}
                 placeholder='Search company name here'
                 style={{ color: InvalidCharChecker(this.state.companyFilter, this.formLimits.companyFilter.max, 'companyFilter') ? '#9D0600' : '' }} />
-              <button disabled={!this._validateCompanyFilter()} onClick={() => this._loadComponentData(true, this.state.companyFilter)}>Search</button>
+              <button disabled={!this._validateCompanyFilter()} onClick={() => this._loadComponentData(true)}>Search</button>
             </div>
           </h1>
           { this.state.tweets.map(tweet => <TweetRow key={tweet.id} tweet={tweet} />) }

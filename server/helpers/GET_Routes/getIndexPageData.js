@@ -2,8 +2,6 @@ const getIndexPageData = (req, res, knex, esClient) => {
 
   const companyNameQuery = req.query.company.trim();
 
-  console.log("i'm here 6: ", { companyNameQuery });
-
   const validateInputs = () => new Promise((resolve, reject) => {
     if (
       companyNameQuery.length >= 3 && companyNameQuery.length <= 20 &&
@@ -19,7 +17,7 @@ const getIndexPageData = (req, res, knex, esClient) => {
     .select('id', 'poster_name', 'company_hashtag', 'work_location_hashtag', 'content', 'like_count', 'created_at')
     .whereNull('deleted_at')
     .orderBy('created_at', 'desc')
-    .limit(2)
+    .limit(10)
     .offset(req.query.tweetsoffset);
 
   const getCompanyIds = () => {
@@ -49,7 +47,7 @@ const getIndexPageData = (req, res, knex, esClient) => {
     .whereIn('company_id', companyIds)
     .whereNull('deleted_at')
     .orderBy('created_at', 'desc')
-    .limit(2)
+    .limit(10)
     .offset(req.query.tweetsoffset);
 
   validateInputs()

@@ -1,7 +1,7 @@
 {
   "name": "ProjectX",
   "version": "1.0.0",
-  "description": "ShellSucks",
+  "description": "WorkerVent",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

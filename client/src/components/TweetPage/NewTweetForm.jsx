@@ -172,7 +172,7 @@ class TweetRow extends Component {
                 className='input'
                 type='text'
                 name='companyHashtag'
-                placeholder='#Company'
+                placeholder='#Company*'
                 value={this.state.companyHashtag}
                 onChange={this._hanldeCompanySearch}
                 style={{ borderColor: !this._validateCompany() ? '#9D0600' : '' }} />

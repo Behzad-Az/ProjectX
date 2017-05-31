@@ -60,7 +60,7 @@ class TweetBox extends Component {
         if (resJSON) { this.setState({ flagClicked: true }); }
         else { throw 'Server returned false'; }
       })
-      .catch(err => console.error('Unable to post like - ', err));
+      .catch(err => console.error('Unable to post flag - ', err));
     }
   }
 
