@@ -1,13 +1,19 @@
 .tweet-page {
   background-color: $default_bg_color; padding: $top_margin $default_margin $default_margin; min-height: 100vh; overflow: auto;
+
   .button.is-primary { background-color: $dark-blue; &:hover { background-color: darken($dark-blue, 10%) } }
   a { color: $dark-blue; &:hover { color: $pumpkin; } }
+
   .main-container {
     width: $main_container_width; min-width: $main_container_width; display: block; margin: auto;
     .page-msg { font-size: 16px; text-align: center; .fa, .sr-only { font-size: 16px; padding: 3px } }
     .header { background-color: $dark-blue; padding: $default_margin/4 $default_margin/2; border-radius: $default_margin/4; margin-bottom: $default_margin/2; color: white; font-weight: bold; }
 
     .tweets-container {
+      .company-search {
+        float: right;
+        input { border-radius: $default_margin/4; margin-right: $default_margin/4; min-width: 160px; }
+      }
       .tweet-row {
         background-color: white; padding: $default_margin/2; margin: 0 0 $default_margin/2 0; border: 1px darken($default-bg-color, 20%) solid;
         .media-left .image { overflow: hidden; border-radius: 50%; }
@@ -16,10 +22,6 @@
       }
     }
 
-    .tweet.box {
-      margin-bottom: $default_margin/2;
-      .level-item { color: $dark-blue; }
-    }
     .new-tweet-form {
       margin-bottom: $default_margin/2;
       .toprow { text-align:center; .control { width: 33.333%; padding-right: $default_margin/4; display: inline-block; margin-bottom: $default_margin/2; } }
@@ -31,9 +33,11 @@
         }
       }
     }
+
     .end-msg {
       text-align: center; margin: $default_margin/2 0;
       .button { background-color: $dark-blue; color: white; &:hover { background-color: darken($dark-blue, 10%); } }
     }
+
   }
 }

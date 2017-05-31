@@ -1,18 +1,23 @@
 import React, {Component} from 'react';
 import TweetRow from './TweetRow.jsx';
+import InvalidCharChecker from '../Partials/InvalidCharChecker.jsx';
 
 class TweetsContainer extends Component {
   constructor(props) {
     super(props);
+    this.formLimits = {
+      companyFilter: { min: 3, max: 20 }
+    };
     this.state = {
       dataLoaded: false,
       pageError: false,
-      showWelcomeModal: false,
+      companyFilter: '',
       tweets: [],
       noMoreFeeds: false
     };
     this._loadComponentData = this._loadComponentData.bind(this);
     this._conditionData = this._conditionData.bind(this);
+    this._validateCompanyFilter = this._validateCompanyFilter.bind(this);
     this._renderLoadMoreBtn = this._renderLoadMoreBtn.bind(this);
     this._renderPageAfterData = this._renderPageAfterData.bind(this);
   }
@@ -28,8 +33,8 @@ class TweetsContainer extends Component {
     }
   }
 
-  _loadComponentData(freshReload) {
-    fetch(`/api/home?tweetsoffset=${freshReload ? 0 : this.state.tweets.length}`, {
+  _loadComponentData(freshReload, companyFilter) {
+    fetch(`/api/index?tweetsoffset=${freshReload ? 0 : this.state.tweets.length}&company=${companyFilter || '_all'}`, {
       method: 'GET',
       credentials: 'same-origin'
     })
@@ -50,6 +55,11 @@ class TweetsContainer extends Component {
     }
   }
 
+  _validateCompanyFilter() {
+    return this.state.companyFilter.length >= this.formLimits.companyFilter.min &&
+           !InvalidCharChecker(this.state.companyFilter, this.formLimits.companyFilter.max, 'companyFilter');
+  }
+
   _renderLoadMoreBtn() {
     if (this.state.tweets.length) {
       const btnContent = this.state.noMoreFeeds && this.state.tweets.length ? 'All tweets loaded' : 'Load more';
@@ -59,7 +69,7 @@ class TweetsContainer extends Component {
         </p>
       );
     } else {
-      return <p>No feed matching your profile yet.</p>;
+      return <p>No work vent posted yet...</p>;
     }
   }
 
@@ -74,7 +84,17 @@ class TweetsContainer extends Component {
     } else if (this.state.dataLoaded) {
       return (
         <div className='tweets-container'>
-          <h1 className='header'>Previous Vents:</h1>
+          <h1 className='header'>
+            Previous Vents:
+            <div className='company-search'>
+              <input
+                type='text'
+                onChange={e => this.setState({ companyFilter: e.target.value })}
+                placeholder='Search company name here'
+                style={{ color: InvalidCharChecker(this.state.companyFilter, this.formLimits.companyFilter.max, 'companyFilter') ? '#9D0600' : '' }} />
+              <button disabled={!this._validateCompanyFilter()} onClick={() => this._loadComponentData(true, this.state.companyFilter)}>Search</button>
+            </div>
+          </h1>
           { this.state.tweets.map(tweet => <TweetRow key={tweet.id} tweet={tweet} />) }
           { this._renderLoadMoreBtn() }
         </div>

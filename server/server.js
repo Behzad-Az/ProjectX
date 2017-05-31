@@ -38,7 +38,8 @@ const server = app.listen(PORT, '127.0.0.1', 'localhost', () => console.log(`Lis
 // ***************************************************
 // HELPERS
 // ***************************************************
-const getTweetPageData = require('./helpers/GET_Routes/getTweetPageData.js');
+const getIndexPageData = require('./helpers/GET_Routes/getIndexPageData.js');
+
 const postNewTweet = require('./helpers/POST_Routes/postNewTweet.js');
 const postNewTweetLike = require('./helpers/POST_Routes/postNewTweetLike.js');
 const postNewTweetFlag = require('./helpers/POST_Routes/postNewTweetFlag.js');
@@ -48,8 +49,8 @@ const postSearchBarResults = require('./helpers/POST_Routes/postSearchBarResults
 // ***************************************************
 // ROUTES - GET
 // ***************************************************
-app.get('/api/home', (req, res) => {
-  getTweetPageData(req, res, knex);
+app.get('/api/index', (req, res) => {
+  getIndexPageData(req, res, knex, esClient);
 });
 
 
