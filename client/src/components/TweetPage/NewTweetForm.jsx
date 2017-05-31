@@ -216,6 +216,18 @@ class TweetRow extends Component {
           <p className='char-count' style={{ color: this.state.content.length <= this.formLimits.content.max ? 'inherit' : '' }}>{this.state.content.length}</p>
         </div>
 
+        <div className='control'>
+          <span className='select'>
+            <select className='select' name='workEnviro' onChange={this._handleChange} value={this.state.workEnviro}>
+              <option value=''>Describe your work environment (optional):</option>
+              <option value='awesome'>Awesome place to work in!</option>
+              <option value='alright'>The place is alright.</option>
+              <option value='funny'>The place is a comedy show.</option>
+              <option value='sucks'>This place sucks!</option>
+            </select>
+          </span>
+        </div>
+
         <div className='control is-grouped'>
           <p className='control'>
             <button className='button is-primary' disabled={!this._validateForm()} onClick={this._handleSubmit}>Submit</button>

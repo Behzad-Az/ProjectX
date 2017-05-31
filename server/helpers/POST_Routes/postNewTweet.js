@@ -139,6 +139,16 @@ const postNewTweet = (req, res, knex, esClient, twit) => {
     else { insertTwitterId(pg_tweet_id, response.id).then(() => {}); }
   });
 
+  const recursivePostToTwitter = (pgTwtId, twtArr, twtIndex) => {
+    if (twtIndex < twtArr.length) {
+      postToTwitter(pgTwtId, twtArr[twtIndex])
+      .then(() => recursivePostToTwitter(pgTwtId, twtArr, ++twtIndex))
+      .catch(err => 0);
+    } else {
+      return 0;
+    }
+  };
+
   validateInputs()
   .then(() => findCompanyId())
   .then(result => result.hits.total ? result.hits.hits[0]._id : insertNewCompany())
@@ -150,9 +160,9 @@ const postNewTweet = (req, res, knex, esClient, twit) => {
     work_enviro,
     content
   }))
-  .then(id => {
+  .then(pgTwtId => {
     res.send(true);
-    // determineTwtArr().forEach(status => postToTwitter(id[0], status));
+    recursivePostToTwitter(pgTwtId[0], determineTwtArr(), 0);
   })
   .catch(err => {
     console.error('Error inside postNewTweet.js', err);

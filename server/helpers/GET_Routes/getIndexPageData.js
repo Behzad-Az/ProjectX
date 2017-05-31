@@ -14,7 +14,7 @@ const getIndexPageData = (req, res, knex, esClient) => {
   });
 
   const getAllTweets = () => knex('pg_tweets')
-    .select('id', 'poster_name', 'company_hashtag', 'work_location_hashtag', 'content', 'like_count', 'created_at')
+    .select('id', 'poster_name', 'company_hashtag', 'work_location_hashtag', 'work_enviro', 'content', 'like_count', 'created_at')
     .whereNull('deleted_at')
     .orderBy('created_at', 'desc')
     .limit(10)
