@@ -1,11 +1,11 @@
 const getIndexPageData = (req, res, knex, esClient) => {
 
-  const companyNameQuery = req.query.company.trim();
+  const companyNameQuery = req.query.company.trim() || '_all';
 
   const validateInputs = () => new Promise((resolve, reject) => {
     if (
-      companyNameQuery.length >= 3 && companyNameQuery.length <= 20 &&
-      companyNameQuery.search(/[^a-zA-Z0-9\_]/) == -1
+      companyNameQuery.length >= 2 && companyNameQuery.length <= 20 &&
+      companyNameQuery.search(/[^a-zA-Z0-9\ \_]/) == -1
     ) {
       resolve();
     } else {

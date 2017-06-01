@@ -25,6 +25,7 @@ class TweetRow extends Component {
     this._validateLocation = this._validateLocation.bind(this);
     this._validateCompany = this._validateCompany.bind(this);
     this._validateContent = this._validateContent.bind(this);
+    this._validateCompanySearchPhrase = this._validateCompanySearchPhrase.bind(this);
     this._validateForm = this._validateForm.bind(this);
     this._hanldeCompanySearch = this._hanldeCompanySearch.bind(this);
     this._conditionCompanySearchResults = this._conditionCompanySearchResults.bind(this);
@@ -79,6 +80,11 @@ class TweetRow extends Component {
            !InvalidCharChecker(this.state.content, this.formLimits.content.max, 'content');
   }
 
+  _validateCompanySearchPhrase() {
+    return this.state.companyHashtag.length >= this.formLimits.companyHashtag.min &&
+           !InvalidCharChecker(this.state.companyHashtag, this.formLimits.companyHashtag.max, 'companySearchPhrase');
+  }
+
   _validateForm() {
     return this._validatePosterName() &&
            this._validateLocation() &&
@@ -89,18 +95,10 @@ class TweetRow extends Component {
   _hanldeCompanySearch(e) {
     const query = e.target.value;
     this.setState({ companyHashtag: query });
-    if (query.length > 2) {
-      fetch('/api/searchbar', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          query,
-          searchType: 'companyHashtag'
-        })
+    if (this._validateCompanySearchPhrase()) {
+      fetch(`/api/company_search?company=${this.state.companyHashtag.trim().replace('#', '')}`, {
+        method: 'GET',
+        credentials: 'same-origin'
       })
       .then(response => response.json())
       .then(resJSON => {
@@ -166,7 +164,7 @@ class TweetRow extends Component {
         <h1 className='header'>Start Venting:</h1>
         <div className='toprow'>
 
-          <div className='search-bar-container control' onBlur={() => setTimeout(() => this.setState({ showResults: false, searchResults: [] }), 100)}>
+          <div className='search-bar-container control' onBlur={() => setTimeout(() => this.setState({ showResults: false, searchResults: [] }), 200)}>
             <div className='search-bar'>
               <input
                 className='input'

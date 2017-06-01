@@ -1,7 +1,7 @@
 {
-  "database": "workervent",
-  "username": "workervent",
-  "password": "w6Ywq2fptwt8wM8s",
+  "database": "behzad",
   "host": "127.0.0.1",
-  "port": 5432
+  "port": 5432,
+  "username": "behzad",
+  "password": "w6Ywq2fptwt8wM8s"
 }

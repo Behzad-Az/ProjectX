@@ -162,7 +162,7 @@ const postNewTweet = (req, res, knex, esClient, twit) => {
   }))
   .then(pgTwtId => {
     res.send(true);
-    recursivePostToTwitter(pgTwtId[0], determineTwtArr(), 0);
+    // recursivePostToTwitter(pgTwtId[0], determineTwtArr(), 0);
   })
   .catch(err => {
     console.error('Error inside postNewTweet.js', err);

@@ -7,10 +7,6 @@ const esClient = new elasticsearch.Client({
   log: 'error'
 });
 
-const deleteIndex = {
-  index: 'worker_vent'
-};
-
 const newIndex = {
   index: 'worker_vent',
   body: {
@@ -26,19 +22,19 @@ const newIndex = {
 };
 
 const bulkIndex = (index, type, data) => {
-  let bulkBody = [];
+  let body = [];
 
   data.forEach(item => {
-    bulkBody.push({
+    body.push({
       index: {
         _index: index,
         _type: type
       }
     });
-    bulkBody.push(item);
+    body.push(item);
   });
 
-  esClient.bulk({body: bulkBody})
+  esClient.bulk({ body })
   .then(response => {
     let errorCount = 0;
     response.items.forEach(item => {
@@ -58,6 +54,6 @@ const populateElasticData = () => {
   bulkIndex('worker_vent', 'company', companies);
 };
 
-esClient.indices.delete(deleteIndex)
+esClient.indices.delete({ index: 'worker_vent' })
 .then(() => esClient.indices.create(newIndex))
 .then(() => populateElasticData());

@@ -12,8 +12,8 @@ const InvalidCharChecker = (str, maxChar, type) => {
     case 'companyHashtag':
       regEx = new RegExp(/[^a-zA-Z0-9\_\#]/);
       break;
-    case 'companyFilter':
-      regEx = new RegExp(/[^a-zA-Z0-9\_]/);
+    case 'companySearchPhrase':
+      regEx = new RegExp(/[^a-zA-Z0-9\ \_\#]/);
       break;
     case 'content':
       regEx = new RegExp(/[^a-zA-Z0-9\ \!\@\#\$\%\^\&\*\(\)\_\+\-\=\\/\\`\~\:\;\"\'\<\>\,\.\?\[\]\{\}\|]/);

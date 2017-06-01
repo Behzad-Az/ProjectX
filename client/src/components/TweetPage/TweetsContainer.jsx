@@ -6,18 +6,18 @@ class TweetsContainer extends Component {
   constructor(props) {
     super(props);
     this.formLimits = {
-      companyFilter: { min: 3, max: 20 }
+      companySearchPhrase: { min: 3, max: 20 }
     };
     this.state = {
       dataLoaded: false,
       pageError: false,
-      companyFilter: '',
+      companySearchPhrase: '',
       tweets: [],
       noMoreFeeds: false
     };
     this._loadComponentData = this._loadComponentData.bind(this);
     this._conditionData = this._conditionData.bind(this);
-    this._validateCompanyFilter = this._validateCompanyFilter.bind(this);
+    this._validateCompanySearchPhrase = this._validateCompanySearchPhrase.bind(this);
     this._renderLoadMoreBtn = this._renderLoadMoreBtn.bind(this);
     this._renderPageAfterData = this._renderPageAfterData.bind(this);
   }
@@ -34,7 +34,7 @@ class TweetsContainer extends Component {
   }
 
   _loadComponentData(freshReload) {
-    fetch(`/api/index?tweetsoffset=${freshReload ? 0 : this.state.tweets.length}&company=${this.state.companyFilter || '_all'}`, {
+    fetch(`/api/index?tweetsoffset=${freshReload ? 0 : this.state.tweets.length}&company=${this.state.companySearchPhrase.trim().replace('#', '')}`, {
       method: 'GET',
       credentials: 'same-origin'
     })
@@ -55,10 +55,10 @@ class TweetsContainer extends Component {
     }
   }
 
-  _validateCompanyFilter() {
-    return !this.state.companyFilter.length ||
-           (this.state.companyFilter.length >= this.formLimits.companyFilter.min &&
-           !InvalidCharChecker(this.state.companyFilter, this.formLimits.companyFilter.max, 'companyFilter'));
+  _validateCompanySearchPhrase() {
+    return !this.state.companySearchPhrase.length ||
+           (this.state.companySearchPhrase.length >= this.formLimits.companySearchPhrase.min &&
+           !InvalidCharChecker(this.state.companySearchPhrase, this.formLimits.companySearchPhrase.max, 'companySearchPhrase'));
   }
 
   _renderLoadMoreBtn() {
@@ -90,10 +90,10 @@ class TweetsContainer extends Component {
             <div className='company-search'>
               <input
                 type='text'
-                onChange={e => this.setState({ companyFilter: e.target.value })}
+                onChange={e => this.setState({ companySearchPhrase: e.target.value })}
                 placeholder='Search company name here'
-                style={{ color: InvalidCharChecker(this.state.companyFilter, this.formLimits.companyFilter.max, 'companyFilter') ? '#9D0600' : '' }} />
-              <button disabled={!this._validateCompanyFilter()} onClick={() => this._loadComponentData(true)}>Search</button>
+                style={{ color: InvalidCharChecker(this.state.companySearchPhrase, this.formLimits.companySearchPhrase.max, 'companySearchPhrase') ? '#9D0600' : '' }} />
+              <button disabled={!this._validateCompanySearchPhrase()} onClick={() => this._loadComponentData(true)}>Search</button>
             </div>
           </h1>
           { this.state.tweets.map(tweet => <TweetRow key={tweet.id} tweet={tweet} />) }

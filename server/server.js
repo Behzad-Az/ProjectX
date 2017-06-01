@@ -39,6 +39,7 @@ const server = app.listen(PORT, '127.0.0.1', 'localhost', () => console.log(`Lis
 // HELPERS
 // ***************************************************
 const getIndexPageData = require('./helpers/GET_Routes/getIndexPageData.js');
+const getCompanyNameSearchResults = require('./helpers/GET_Routes/getCompanyNameSearchResults.js');
 
 const postNewTweet = require('./helpers/POST_Routes/postNewTweet.js');
 const postNewTweetLike = require('./helpers/POST_Routes/postNewTweetLike.js');
@@ -51,6 +52,10 @@ const postSearchBarResults = require('./helpers/POST_Routes/postSearchBarResults
 // ***************************************************
 app.get('/api/index', (req, res) => {
   getIndexPageData(req, res, knex, esClient);
+});
+
+app.get('/api/company_search', (req, res) => {
+  getCompanyNameSearchResults(req, res, esClient);
 });
 
 
