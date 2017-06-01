@@ -6,7 +6,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const connection = require('./db/knexfile.js').development;
+const connection = require('./db/knexfile.js').production;
 const knex = require('knex')(connection);
 const elasticsearch = require('elasticsearch');
 const esClient = new elasticsearch.Client({
