@@ -185,7 +185,7 @@ class TweetRow extends Component {
               className='input'
               type='text'
               name='workLocationHashtag'
-              placeholder='#WorkLocation (optional)'
+              placeholder='#WorkLocation (Optional)'
               value={this.state.workLocationHashtag}
               onChange={this._handleChange}
               style={{ borderColor: !this._validateLocation() ? '#9D0600' : '' }} />
@@ -217,7 +217,7 @@ class TweetRow extends Component {
         <div className='control'>
           <span className='select'>
             <select className='select' name='workEnviro' onChange={this._handleChange} value={this.state.workEnviro}>
-              <option value=''>Describe your work environment (optional):</option>
+              <option value=''>Work Environment (Optional):</option>
               <option value='awesome'>Awesome place to work in!</option>
               <option value='alright'>The place is alright.</option>
               <option value='funny'>The place is a comedy show.</option>

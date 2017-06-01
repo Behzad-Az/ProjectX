@@ -1,5 +1,7 @@
 @media screen and (max-width: 950px) {
-  .tweet-page {
-    .main-container { display: block; width: 100%; }
-  }
+  .tweet-page .main-container { display: block; width: 100%; }
+}
+
+@media screen and (max-width: 360px) {
+  .tweet-page .main-container .tweets-container .company-search { float: none; display: block; }
 }

@@ -7,12 +7,13 @@
   .main-container {
     width: $main_container_width; min-width: $main_container_width; display: block; margin: auto;
     .page-msg { font-size: 16px; text-align: center; .fa, .sr-only { font-size: 16px; padding: 3px } }
-    .header { background-color: $dark-blue; padding: $default_margin/4 $default_margin/2; border-radius: $default_margin/4; margin-bottom: $default_margin/2; color: white; font-weight: bold; }
+    .header { background-color: $dark-blue; padding: $default_margin/4 $default_margin/2; border-radius: $default_margin/4; margin-bottom: $default_margin/2; color: white; font-weight: bold; overflow: auto; }
 
     .tweets-container {
       .company-search {
         float: right;
-        input { border-radius: $default_margin/4; margin-right: $default_margin/4; min-width: 160px; }
+        input { border-radius: $default_margin/4; margin-right: $default_margin/4; width: 130px; }
+        .button { color: $dark-blue; font-size: 12px; padding: 0 5px; height: 19px; margin-top: 2px; }
       }
       .tweet-row {
         background-color: white; padding: $default_margin/2; margin: 0 0 $default_margin/2 0; border: 1px darken($default-bg-color, 20%) solid;
@@ -29,6 +30,7 @@
       .char-count { text-align: right; font-size: 12px; color: $bad-red; }
       .control {
         .input, .select, .textarea {
+          max-width: 280px;
           &:after { border: 1px solid $dark-blue; border-right: 0; border-top: 0 }
           &:active, &:focus { border-color: $dark-blue; }
         }

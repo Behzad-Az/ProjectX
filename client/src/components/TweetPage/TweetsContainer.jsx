@@ -91,9 +91,12 @@ class TweetsContainer extends Component {
               <input
                 type='text'
                 onChange={e => this.setState({ companySearchPhrase: e.target.value })}
-                placeholder='Search company name here'
+                placeholder='Search company name'
                 style={{ color: InvalidCharChecker(this.state.companySearchPhrase, this.formLimits.companySearchPhrase.max, 'companySearchPhrase') ? '#9D0600' : '' }} />
-              <button disabled={!this._validateCompanySearchPhrase()} onClick={() => this._loadComponentData(true)}>Search</button>
+              <button
+                className='button'
+                disabled={!this._validateCompanySearchPhrase()}
+                onClick={() => this._loadComponentData(true)}>Search</button>
             </div>
           </h1>
           { this.state.tweets.map(tweet => <TweetRow key={tweet.id} tweet={tweet} />) }
