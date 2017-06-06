@@ -26,6 +26,8 @@ module.exports = {
     proxy: {
       '/api/**': 'http://162.243.149.157:19001',
       '/api/': 'http://162.243.149.157:19001'
+      // '/api/**': 'http://127.0.0.1:19001',
+      // '/api/': 'http://127.0.0.1:19001'
     },
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath

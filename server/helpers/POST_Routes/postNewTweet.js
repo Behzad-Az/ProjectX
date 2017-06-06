@@ -4,10 +4,6 @@ const postNewTweet = (req, res, knex, esClient, twit) => {
 
   const determineWorkEnviro = () => {
     switch(req.body.workEnviro) {
-      case 'awesome':
-        return '#awesome';
-      case 'alright':
-        return '#cool';
       case 'funny':
         return '#funny';
       case 'sucks':
@@ -115,13 +111,25 @@ const postNewTweet = (req, res, knex, esClient, twit) => {
     }
   };
 
+  const determineCompanyIdentifier = () => {
+    if (work_location_hashtag && work_enviro) {
+      return `${company_hashtag} ${work_location_hashtag} ${work_enviro}`.trim();
+    } else if (work_location_hashtag) {
+      return `${company_hashtag} ${work_location_hashtag}`.trim()
+    } else if (work_enviro) {
+      return `${company_hashtag} ${work_enviro}`.trim();
+    } else {
+      return company_hashtag.trim();
+    }
+  };
+
   const determineTwtArr = () => {
-    const companyIdentifier = `${company_hashtag} ${work_location_hashtag} ${work_enviro}`.trim();
+    const companyIdentifier = determineCompanyIdentifier();
     const tweetEnd = '\n#WorkerVent';
     const sliceLength = MAX_CHAR_COUNT - companyIdentifier.length - tweetEnd.length - 9;
     return divideTweet(content, sliceLength).map((tweetBody, index, arr) =>
-      companyIdentifier +
-      (arr.length > 1 ? ` (${index + 1}/${arr.length})\n` : '\n') +
+      (arr.length > 1 ? `${index + 1}/${arr.length} ` : '') +
+      companyIdentifier + '\n' +
       tweetBody +
       tweetEnd
     );
@@ -162,7 +170,7 @@ const postNewTweet = (req, res, knex, esClient, twit) => {
   }))
   .then(pgTwtId => {
     res.send(true);
-    // recursivePostToTwitter(pgTwtId[0], determineTwtArr(), 0);
+    recursivePostToTwitter(pgTwtId[0], determineTwtArr(), 0);
   })
   .catch(err => {
     console.error('Error inside postNewTweet.js', err);
