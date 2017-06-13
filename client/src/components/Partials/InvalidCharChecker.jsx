@@ -16,7 +16,7 @@ const InvalidCharChecker = (str, maxChar, type) => {
       regEx = new RegExp(/[^a-zA-Z0-9\ \_\#]/);
       break;
     case 'content':
-      regEx = new RegExp(/[^a-zA-Z0-9\ \!\@\#\$\%\^\&\*\(\)\_\+\-\=\\/\\`\~\:\;\"\'\<\>\,\.\?\[\]\{\}\|]/);
+      regEx = new RegExp(/[^a-zA-Z0-9\ \!\@\#\$\%\^\&\*\(\)\_\+\-\=\\/\\`\~\:\;\"\'\<\>\,\.\?\[\]\{\}\|/\n/]/);
       break;
     default:
       regEx = 'iL5mdXEbyY';

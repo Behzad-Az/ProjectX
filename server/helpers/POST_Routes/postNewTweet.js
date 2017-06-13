@@ -47,7 +47,7 @@ const postNewTweet = (req, res, knex, esClient, twit) => {
 
   const validateContent = () => {
     return content.length >= 3 && content.length <= 500 &&
-           content.search(/[^a-zA-Z0-9\ \!\@\#\$\%\^\&\*\(\)\_\+\-\=\\/\\`\~\:\;\"\'\<\>\,\.\?\[\]\{\}\|]/) == -1 &&
+           content.search(/[^a-zA-Z0-9\ \!\@\#\$\%\^\&\*\(\)\_\+\-\=\\/\\`\~\:\;\"\'\<\>\,\.\?\[\]\{\}\|/\n/]/) == -1 &&
            !profanityRegEx.test(content);
   };
 
