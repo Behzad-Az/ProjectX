@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class TweetBox extends Component {
+class TweetRow extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -8,16 +8,9 @@ class TweetBox extends Component {
       flagClicked: false,
       likeCount: this.props.tweet.like_count
     };
-    this._findTimePast = this._findTimePast.bind(this);
     this._findBoxHeader = this._findBoxHeader.bind(this);
     this._handleSubmitLike = this._handleSubmitLike.bind(this);
     this._handleSubmitFlag = this._handleSubmitFlag.bind(this);
-  }
-
-  _findTimePast(hoursAgo) {
-    if (hoursAgo < 1) { return 'Less than 1 hour ago'; }
-    else if (hoursAgo < 24) { return `${hoursAgo} hour(s) ago`; }
-    else if (hoursAgo < 31 * 24) { return `${Math.floor(hoursAgo/24)} day(s) ago`; }
   }
 
   _findBoxHeader() {
@@ -106,4 +99,4 @@ class TweetBox extends Component {
   }
 }
 
-export default TweetBox;
+export default TweetRow;

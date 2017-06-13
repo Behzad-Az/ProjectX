@@ -8,7 +8,7 @@ class TweetPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showWelcomeModal: true,
+      showWelcomeModal: false,
       tweetsState: 0
     };
     this._toggleWelcomeModal = this._toggleWelcomeModal.bind(this);

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import InvalidCharChecker from '../Partials/InvalidCharChecker.jsx';
+import SubmitModal from './SubmitModal.jsx';
 
 class TweetRow extends Component {
   constructor(props) {
@@ -17,10 +18,11 @@ class TweetRow extends Component {
       content: '',
       workEnviro: '',
       showResults: false,
-      searchResults: []
+      searchResults: [],
+      showSubmitModal: false
     };
     this._handleChange = this._handleChange.bind(this);
-    this._handleClear = this._handleClear.bind(this);
+    this._clearForm = this._clearForm.bind(this);
     this._validatePosterName = this._validatePosterName.bind(this);
     this._validateLocation = this._validateLocation.bind(this);
     this._validateCompany = this._validateCompany.bind(this);
@@ -29,7 +31,6 @@ class TweetRow extends Component {
     this._validateForm = this._validateForm.bind(this);
     this._hanldeCompanySearch = this._hanldeCompanySearch.bind(this);
     this._conditionCompanySearchResults = this._conditionCompanySearchResults.bind(this);
-    this._handleSubmit = this._handleSubmit.bind(this);
   }
 
   _handleChange(e) {
@@ -38,7 +39,7 @@ class TweetRow extends Component {
     this.setState(newState);
   }
 
-  _handleClear() {
+  _clearForm() {
     this.setState({
       posterName: '',
       companyHashtag: '',
@@ -49,40 +50,45 @@ class TweetRow extends Component {
   }
 
   _validatePosterName() {
-    if (this.state.posterName) {
-      return this.state.posterName.length >= this.formLimits.posterName.min &&
-             !InvalidCharChecker(this.state.posterName, this.formLimits.posterName.max, 'posterName');
+    const posterName = this.state.posterName.trim();
+    if (posterName) {
+      return posterName.length >= this.formLimits.posterName.min &&
+             !InvalidCharChecker(posterName, this.formLimits.posterName.max, 'posterName');
     } else {
       return true;
     }
   }
 
   _validateLocation() {
-    if (this.state.workLocationHashtag) {
-      return this.state.workLocationHashtag.length >= this.formLimits.workLocationHashtag.min &&
-             this.state.workLocationHashtag[0] === '#' &&
-             (this.state.workLocationHashtag.match(/#/g)).length === 1 &&
-             !InvalidCharChecker(this.state.workLocationHashtag, this.formLimits.workLocationHashtag.max, 'workLocationHashtag');
+    const workLocationHashtag = this.state.workLocationHashtag.trim();
+    if (workLocationHashtag) {
+      return workLocationHashtag.length >= this.formLimits.workLocationHashtag.min &&
+             workLocationHashtag[0] === '#' &&
+             (workLocationHashtag.match(/#/g)).length === 1 &&
+             !InvalidCharChecker(workLocationHashtag, this.formLimits.workLocationHashtag.max, 'workLocationHashtag');
     } else {
       return true;
     }
   }
 
   _validateCompany() {
-    return this.state.companyHashtag.length >= this.formLimits.companyHashtag.min &&
-           this.state.companyHashtag[0] === '#' &&
-           (this.state.companyHashtag.match(/#/g)).length === 1 &&
-           !InvalidCharChecker(this.state.companyHashtag, this.formLimits.companyHashtag.max, 'companyHashtag');
+    const companyHashtag = this.state.companyHashtag.trim();
+    return companyHashtag.length >= this.formLimits.companyHashtag.min &&
+           companyHashtag[0] === '#' &&
+           (companyHashtag.match(/#/g)).length === 1 &&
+           !InvalidCharChecker(companyHashtag, this.formLimits.companyHashtag.max, 'companyHashtag');
   }
 
   _validateContent() {
-    return this.state.content.length >= this.formLimits.content.min &&
-           !InvalidCharChecker(this.state.content, this.formLimits.content.max, 'content');
+    const content = this.state.content.trim();
+    return content.length >= this.formLimits.content.min &&
+           !InvalidCharChecker(content, this.formLimits.content.max, 'content');
   }
 
   _validateCompanySearchPhrase() {
-    return this.state.companyHashtag.length >= this.formLimits.companyHashtag.min &&
-           !InvalidCharChecker(this.state.companyHashtag, this.formLimits.companyHashtag.max, 'companySearchPhrase');
+    const companyHashtag = this.state.companyHashtag.trim();
+    return companyHashtag.length >= this.formLimits.companyHashtag.min &&
+           !InvalidCharChecker(companyHashtag, this.formLimits.companyHashtag.max, 'companySearchPhrase');
   }
 
   _validateForm() {
@@ -126,40 +132,20 @@ class TweetRow extends Component {
     }
   }
 
-  _handleSubmit() {
-    const data = {
-      posterName: this.state.posterName,
-      companyHashtag: this.state.companyHashtag,
-      workLocationHashtag: this.state.workLocationHashtag,
-      workEnviro: this.state.workEnviro,
-      content: this.state.content
-    };
-
-    fetch('/api/tweets', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(resJSON => {
-      if (resJSON) {
-        this._handleClear();
-        this.props.reload();
-      } else {
-        throw 'Server returned false';
-      }
-    })
-    .catch(err => console.error('Unable to post tweet - ', err));
-  }
-
   render() {
     return (
 
       <div className='new-tweet-form'>
+        <SubmitModal
+          showModal={this.state.showSubmitModal}
+          toggleModal={() => this.setState({ showSubmitModal: !this.state.showSubmitModal })}
+          reload={this.props.reload}
+          clearForm={this._clearForm}
+          posterName={this.state.posterName.trim()}
+          companyHashtag={this.state.companyHashtag.trim()}
+          workLocationHashtag={this.state.workLocationHashtag.trim()}
+          workEnviro={this.state.workEnviro}
+          content={this.state.content.trim()} />
 
         <h1 className='header'>Start Venting:</h1>
         <div className='toprow'>
@@ -211,7 +197,7 @@ class TweetRow extends Component {
             value={this.state.content}
             onChange={this._handleChange}
             style={{ borderColor: !this._validateContent() ? '#9D0600' : '' }} />
-          <p className='char-count' style={{ color: this.state.content.length <= this.formLimits.content.max ? 'inherit' : '' }}>{this.state.content.length}</p>
+          <p className='char-count' style={{ color: this.state.content.trim().length <= this.formLimits.content.max ? 'inherit' : '' }}>{this.state.content.trim().length}</p>
         </div>
 
         <div className='control'>
@@ -228,10 +214,15 @@ class TweetRow extends Component {
 
         <div className='control is-grouped'>
           <p className='control'>
-            <button className='button is-primary' disabled={!this._validateForm()} onClick={this._handleSubmit}>Submit</button>
+            <button
+              className='button is-primary'
+              disabled={!this._validateForm()}
+              onClick={() => this.setState({ showSubmitModal: true })}>
+                Preview
+            </button>
           </p>
           <p className='control'>
-            <button className='button is-link' onClick={this._handleClear}>Clear</button>
+            <button className='button is-link' onClick={this._clearForm}>Clear</button>
           </p>
           <p className='control'>
             <button className='button is-link' onClick={this.props.showRules}>Rules of Posting</button>

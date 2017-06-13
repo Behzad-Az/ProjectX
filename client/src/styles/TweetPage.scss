@@ -16,8 +16,7 @@
         .button { color: $dark-blue; font-size: 12px; padding: 0 5px; height: 19px; margin-top: 2px; }
       }
       .tweet-row {
-        background-color: white; padding: $default_margin/2; margin: 0 0 $default_margin/2 0; border: 1px darken($default-bg-color, 20%) solid;
-        .media-left .image { overflow: hidden; border-radius: 50%; }
+        background-color: white; padding: $default_margin/2; margin: 0 0 $default_margin/2 0; border: 1px darken($default-bg-color, 20%) solid; white-space: pre-wrap; overflow: auto;
         .fa { color: $light-blue; font-size: 12px; cursor: pointer; vertical-align: middle; &:hover { transform: scale(1.1); } }
         .footer-item { margin-right: $default_margin/2; }
       }
@@ -35,6 +34,7 @@
           &:active, &:focus { border-color: $dark-blue; }
         }
       }
+      .preview-row { white-space: pre-wrap; overflow: auto; }
     }
 
     .end-msg {

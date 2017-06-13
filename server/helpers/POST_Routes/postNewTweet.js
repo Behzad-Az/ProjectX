@@ -27,7 +27,7 @@ const postNewTweet = (req, res, knex, esClient, twit) => {
 
   const validateWorkLocation = () => {
     if (work_location_hashtag) {
-      return work_location_hashtag.length >= 3 && work_location_hashtag.length <=15 &&
+      return work_location_hashtag.length >= 3 && work_location_hashtag.length <= 15 &&
              work_location_hashtag.search(/[^a-zA-Z0-9\_\#]/) == -1 &&
              work_location_hashtag[0] === '#' &&
              (work_location_hashtag.match(/#/g)).length === 1 &&
@@ -126,7 +126,7 @@ const postNewTweet = (req, res, knex, esClient, twit) => {
   const determineTwtArr = () => {
     const companyIdentifier = determineCompanyIdentifier();
     const tweetEnd = '\n#WorkerVent';
-    const sliceLength = MAX_CHAR_COUNT - companyIdentifier.length - tweetEnd.length - 9;
+    const sliceLength = MAX_CHAR_COUNT - companyIdentifier.length - tweetEnd.length - 5;
     return divideTweet(content, sliceLength).map((tweetBody, index, arr) =>
       (arr.length > 1 ? `${index + 1}/${arr.length} ` : '') +
       companyIdentifier + '\n' +
