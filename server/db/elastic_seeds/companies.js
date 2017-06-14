@@ -56,4 +56,5 @@ const populateElasticData = () => {
 
 esClient.indices.delete({ index: 'worker_vent' })
 .then(() => esClient.indices.create(newIndex))
-.then(() => populateElasticData());
+.then(() => populateElasticData())
+.catch(err => console.error('Error isnide companies.js: ', err));
