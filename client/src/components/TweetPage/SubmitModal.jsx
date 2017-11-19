@@ -50,7 +50,7 @@ class SubmitModal extends Component {
   _determineTwtArr() {
     const companyIdentifier = this._determineCompanyIdentifier();
     const tweetEnd = '\n#WorkerVent';
-    const sliceLength = 140 - companyIdentifier.length - tweetEnd.length - 5;
+    const sliceLength = 280 - companyIdentifier.length - tweetEnd.length - 5;
     return this._divideTweet(this.props.content, sliceLength).map((tweetBody, index, arr) =>
       (arr.length > 1 ? `${index + 1}/${arr.length} ` : '') +
       companyIdentifier + '\n' +

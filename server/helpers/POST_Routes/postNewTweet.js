@@ -1,5 +1,5 @@
 const postNewTweet = (req, res, knex, esClient, twit) => {
-  const MAX_CHAR_COUNT = 140;
+  const MAX_CHAR_COUNT = 280;
   const profanityRegEx = new RegExp(['fuck', 'dick', 'asshole', 'bitch', 'motherfucker'].join('|'));
 
   const determineWorkEnviro = () => {
